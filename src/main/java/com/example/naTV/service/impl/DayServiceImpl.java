@@ -4,18 +4,19 @@ import com.example.naTV.mapper.EntityAndDTO.DayMapper;
 import com.example.naTV.models.dto.DayDto;
 import com.example.naTV.models.dto.OrderDetailDto;
 import com.example.naTV.models.entity.Day;
+import com.example.naTV.models.entity.QDay;
 import com.example.naTV.models.repository.DayRepository;
 import com.example.naTV.service.Interface.DayService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DayServiceImpl extends BaseServiceImpl<Day, DayDto> implements DayService {
+public class DayServiceImpl extends BaseServiceImpl<Day, QDay, DayDto> implements DayService {
 
     private DayServiceImpl(DayRepository rep) {
 

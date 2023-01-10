@@ -1,8 +1,10 @@
 package com.example.naTV.models.entity;
+import com.querydsl.core.types.EntityPath;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Channel extends BaseEntity {
+public class Channel extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -35,8 +37,9 @@ public class Channel extends BaseEntity {
 
 
     @PrePersist
-    void prePersist(){
+    protected void prePersist(){
         this.active=true;
+        this.addDate=new Date(System.currentTimeMillis());
 
     }
 

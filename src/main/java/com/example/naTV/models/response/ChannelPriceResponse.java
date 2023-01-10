@@ -12,7 +12,11 @@ import lombok.*;
 public class ChannelPriceResponse {
     @JsonProperty("channel_id")
     Long id;
+    String name;
+
     Double price;
     @JsonProperty("price_with_discount")
     Double discountPrice;
+    @JsonProperty("day_and_price")
+    DayAndTotalPrice dayAndPrice;
 }

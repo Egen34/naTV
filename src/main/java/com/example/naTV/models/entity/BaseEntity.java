@@ -5,7 +5,8 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import java.util.Date;
+import javax.persistence.PrePersist;
+import java.sql.Date;
 
 @MappedSuperclass
 @Getter

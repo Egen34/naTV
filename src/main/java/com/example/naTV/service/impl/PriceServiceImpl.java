@@ -4,20 +4,23 @@ import com.example.naTV.mapper.EntityAndDTO.PriceMapper;
 import com.example.naTV.models.dto.ChannelDto;
 import com.example.naTV.models.dto.PriceDto;
 import com.example.naTV.models.entity.Price;
-import com.example.naTV.models.info.PriceInfo;
+import com.example.naTV.models.entity.QPrice;
 import com.example.naTV.models.repository.PriceRepository;
 import com.example.naTV.models.request.PriceRequest;
+import com.example.naTV.models.response.DayAndPriceResponse;
+import com.example.naTV.models.response.DayAndTotalPrice;
 import com.example.naTV.service.Interface.PriceService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PriceServiceImpl extends BaseServiceImpl<Price, PriceDto> implements PriceService {
+public class PriceServiceImpl extends BaseServiceImpl<Price, QPrice, PriceDto> implements PriceService {
 
     private final PriceRepository priceRepository;
 
@@ -37,29 +40,23 @@ public class PriceServiceImpl extends BaseServiceImpl<Price, PriceDto> implement
     }
 
     @Override
-    public Double getActualPrice(Long channelId, List<Date> days, int textLen) {
+    public DayAndTotalPrice getActualPrice(Long channelId, List<Date> days, int textLen) {
         double totalPrice = 0;
-        Date max = days.stream().max(Date::compareTo).get();
-        Date min = days.stream().min(Date::compareTo).get();
-        List<PriceInfo> prices = priceRepository.getActualPriceInRange(channelId, min, max);
+        List<DayAndPriceResponse> dayAndPriceResponseList=new ArrayList<>();
         for (var item : days) {
-            if (!prices.isEmpty()) {
-                totalPrice += prices
-                        .stream()
-                        .filter(p -> p.getStartDate().before(item) && (p.getEndDate() == null || p.getEndDate().after(item)))
-                        .min((a, b) -> {
-                            if (a.getRange() == null)
-                                return (int) (b.getStartDate().getTime() - a.getStartDate().getTime());
-                            if (b.getRange() == null)
-                                return (int) (a.getStartDate().getTime() - b.getStartDate().getTime());
-                            return a.getRange() - b.getRange();
-                        })
-                        .get()
-                        .getPrice();
-            }
+            Double price=priceRepository.getActualPriceInRange(channelId, item).get(0).getPrice();
+            totalPrice += price;
+            dayAndPriceResponseList.add(DayAndPriceResponse.builder()
+                    .day(item)
+                    .price(price)
+                    .build());
         }
 
-        return totalPrice * textLen;
+        return DayAndTotalPrice.builder()
+                .totalPrice(totalPrice * textLen)
+                .dayAndPriceResponses(dayAndPriceResponseList)
+                .build();
+
     }
 
     @Override
@@ -71,6 +68,7 @@ public class PriceServiceImpl extends BaseServiceImpl<Price, PriceDto> implement
                                 .id(request.getChannelId())
                                 .build()
                         )
+                        .price(request.getPrice())
                         .endDate(request.getEndDate())
                         .build()
         );

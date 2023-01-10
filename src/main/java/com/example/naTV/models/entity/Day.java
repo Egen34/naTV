@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity(name = "days")
 @Getter
@@ -21,7 +21,7 @@ public class Day extends BaseEntity{
     OrderDetail orderDetails;
     Date day;
     @PrePersist
-    void prePersist(){
+    protected void prePersist(){
         this.active=true;
     }
 }

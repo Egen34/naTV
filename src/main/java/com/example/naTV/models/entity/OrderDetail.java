@@ -25,7 +25,7 @@ public class OrderDetail extends BaseEntity{
 
     Double price;
     @PrePersist
-    void prePersist(){
+    protected void prePersist(){
         this.active=true;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.naTV.models.response;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
 /**
@@ -14,6 +14,7 @@ public interface GetChannalRespnonse extends Serializable {
 
     String getPhoto();
     Set<DiscountInfo> getDiscounts();
+    Set<PriceInfo> getPrices();
     interface DiscountInfo {
         Double getPercent();
 
@@ -21,6 +22,7 @@ public interface GetChannalRespnonse extends Serializable {
     }
     interface PriceInfo{
         double getPrice();
+        Date getStartDate();
         Date getEndDate();
     }
 

@@ -1,15 +1,17 @@
 package com.example.naTV.models.repository;
 
 import com.example.naTV.models.entity.Price;
+import com.example.naTV.models.entity.QPrice;
 import com.example.naTV.models.info.PriceInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
-public interface PriceRepository extends BaseRepository<Price, Long> {
+;
+
+public interface PriceRepository extends BaseRepository<Price, QPrice, Long> {
 
     @Query(value = """
         select 
@@ -20,14 +22,12 @@ public interface PriceRepository extends BaseRepository<Price, Long> {
     int findPrice( Long channelId,Date day);
     @Query("""
     select
-     (p.endDate-p.startDate) as range,
-     p.startDate as startDate,
-     p.endDate as endDate,
      p.price as price
     from prices p 
-    where p.active = true and p.startDate<:minDate and (:maxDate<=p.endDate or p.endDate is null ) and p.channels.id = :id
+    where p.active = true and p.startDate<=:day and (:day<p.endDate or p.endDate is null ) and p.channels.id = :id
+    order by p.startDate desc
     """)
-    List<PriceInfo> getActualPriceInRange(@Param("id") Long id, @Param("minDate") Date minDate, @Param("maxDate") Date maxDate);
+    List<PriceInfo> getActualPriceInRange(@Param("id") Long id, @Param("day") Date day);
 
 
 }

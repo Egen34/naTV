@@ -1,9 +1,10 @@
 package com.example.naTV.service.impl;
 
+import com.example.naTV.mapper.EntityAndDTO.DiscountMapper;
 import com.example.naTV.models.dto.ChannelDto;
 import com.example.naTV.models.dto.DiscountDto;
 import com.example.naTV.models.entity.Discount;
-import com.example.naTV.mapper.EntityAndDTO.DiscountMapper;
+import com.example.naTV.models.entity.QDiscount;
 import com.example.naTV.models.info.ActualDiscount;
 import com.example.naTV.models.repository.DiscountRepository;
 import com.example.naTV.models.request.DiscountRequest;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DiscountServiceImpl extends BaseServiceImpl<Discount, DiscountDto> implements DiscountService {
+public class DiscountServiceImpl extends BaseServiceImpl<Discount, QDiscount, DiscountDto> implements DiscountService {
     private final DiscountRepository rep;
 
     private DiscountServiceImpl(DiscountRepository rep) {

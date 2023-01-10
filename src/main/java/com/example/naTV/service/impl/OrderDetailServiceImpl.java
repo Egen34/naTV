@@ -4,11 +4,13 @@ import com.example.naTV.mapper.EntityAndDTO.OrderDetailMapper;
 import com.example.naTV.models.dto.OrderDetailDto;
 import com.example.naTV.models.dto.OrderDto;
 import com.example.naTV.models.entity.OrderDetail;
-import com.example.naTV.models.repository.BaseRepository;
+import com.example.naTV.models.entity.QOrderDetail;
+import com.example.naTV.models.repository.OrderDetailRepository;
 import com.example.naTV.models.request.ChannelIdAndDays;
 import com.example.naTV.models.request.OrderRequest;
 import com.example.naTV.models.request.TextAndChannelsWithDays;
 import com.example.naTV.models.response.ChannelPriceResponse;
+import com.example.naTV.models.response.DayAndTotalPrice;
 import com.example.naTV.models.response.TotalPriceAndChannels;
 import com.example.naTV.service.Interface.*;
 import lombok.AccessLevel;
@@ -24,7 +26,7 @@ import java.util.Map;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDetailDto> implements OrderDetailService {
+public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, QOrderDetail, OrderDetailDto> implements OrderDetailService {
     private final PriceService priceService;
     private final DiscountService discountService;
     private final ChannelService channelService;
@@ -33,7 +35,7 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
     private final DayService dayService;
 
     @Autowired
-    public OrderDetailServiceImpl(BaseRepository<OrderDetail, Long> repository, PriceService priceService, DiscountService discountService, ChannelService channelService, OrderService orderService, DayService dayService) {
+    public OrderDetailServiceImpl(OrderDetailRepository repository, PriceService priceService, DiscountService discountService, ChannelService channelService, OrderService orderService, DayService dayService) {
         super(repository, OrderDetailMapper.INSTANCE);
         this.priceService = priceService;
         this.discountService = discountService;
@@ -66,12 +68,13 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
     @Override
     public ChannelPriceResponse getPriceByOnlyChannel(ChannelIdAndDays request, String text) {
         int textLen = text.length() - StringUtils.countOccurrencesOf(text, " ");
-        double price = priceService.getActualPrice(request.getId(), request.getDays(), textLen);
+        DayAndTotalPrice priceAndDays = priceService.getActualPrice(request.getId(), request.getDays(), textLen);
         return ChannelPriceResponse.builder()
                 .id(request.getId())
-                .price(price)
+                .price(priceAndDays.getTotalPrice())
+                .dayAndPrice(priceAndDays)
                 .discountPrice(
-                        price * discountService
+                        priceAndDays.getTotalPrice() * discountService
                                 .getDiscountNegativePercent(
                                         request.getId(),
                                         request.getDays().size()

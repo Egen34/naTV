@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity(name = "prices")
 @Getter
@@ -27,7 +27,7 @@ public class Price  extends BaseEntity{
     Double price;
 
     @PrePersist
-    void prePersist(){
+    protected void prePersist(){
         this.active=true;
     }
 

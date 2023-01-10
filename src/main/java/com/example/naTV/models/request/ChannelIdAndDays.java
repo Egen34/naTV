@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -18,8 +18,7 @@ import java.util.List;
 public class ChannelIdAndDays {
     @JsonProperty("channel_id")
     Long id;
-    @JsonFormat(pattern = "YYYY.MM.DD")
-    @ApiModelProperty(example = "[\"2023.01.01\"]")
+
 
     List<Date> days;
 }

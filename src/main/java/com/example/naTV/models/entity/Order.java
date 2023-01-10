@@ -5,7 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity(name = "orders")
 @Getter
@@ -26,7 +26,7 @@ public class Order  extends BaseEntity{
 
     Boolean status;
     @PrePersist
-    void prePersist(){
+    protected void prePersist(){
         this.addDate= new Date(System.currentTimeMillis());
         this.active=true;
     }

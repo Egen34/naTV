@@ -1,7 +1,6 @@
 package com.example.naTV.configurations;
 
 
-import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,8 +18,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2Config  {
     public static final String CHANNELS="каналы";
     public static final String DAY="дни";
-    public static final String ORDERS="заказы";
-    public static final String ORDERDETAIL="детали заказов";
+    public static final String ORDERS="заявки";
+    public static final String ORDERDETAIL="детали заявки";
     public static final String PRICE="цены";
     public static final String DISCOUNT="скидки";
     @Bean
@@ -61,5 +60,4 @@ public class Swagger2Config  {
                 .build();
     }
 
-
-}
+   }

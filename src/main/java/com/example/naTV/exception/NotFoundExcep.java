@@ -1,6 +1,8 @@
 package com.example.naTV.exception;
 
-public class NotFoundExcep extends RuntimeException{
+import java.util.function.Supplier;
+
+public class NotFoundExcep extends RuntimeException  {
 
     public NotFoundExcep(String message) {
         super(message);

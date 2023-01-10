@@ -4,7 +4,7 @@ import com.example.naTV.models.entity.Discount;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * A DTO for the {@link Discount} entity

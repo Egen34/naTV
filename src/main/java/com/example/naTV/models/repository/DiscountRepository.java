@@ -2,14 +2,14 @@ package com.example.naTV.models.repository;
 
 
 import com.example.naTV.models.entity.Discount;
+import com.example.naTV.models.entity.QDiscount;
 import com.example.naTV.models.info.ActualDiscount;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 ;
-import java.util.Optional;
 
-public interface DiscountRepository extends BaseRepository<Discount, Long> {
+public interface DiscountRepository extends BaseRepository<Discount, QDiscount, Long> {
     @Query("""
             select 
             max(d.minDay)  as minDay,
