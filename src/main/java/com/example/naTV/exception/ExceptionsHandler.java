@@ -22,4 +22,9 @@ public class ExceptionsHandler {
         return new ResponseEntity(ResponseExceptions.getErrorResponse(ex.getMessage()), HttpStatus.CONFLICT);
 
     }
+//    @ExceptionHandler({RuntimeException.class})
+//    public ResponseEntity<?> handleCreateEntityException(RuntimeException ex){
+//        return new ResponseEntity(ResponseExceptions.getErrorResponse(ex.getMessage()), HttpStatus.I_AM_A_TEAPOT);
+//
+//    }
 }

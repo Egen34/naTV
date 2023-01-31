@@ -48,19 +48,22 @@ public class ChannelContr {
 
 
     @GetMapping("/getChannels")
+    @ApiOperation("получить все каналы")
     List<GetChannalRespnonse> getChannels(@RequestParam int page, @RequestParam int size) {
         return service.getChannels(PageRequest.of(page,size));
     }
 
     @GetMapping("/delete")
+    @ApiOperation("Удалить канал по id")
     int delete(@RequestParam Long id) {
         return service.deleteById(id);
     }
-    @PutMapping("/discount/save")
+    @PostMapping("/discount/save")
+    @ApiOperation("Сохранения скидки")
     ResponseEntity<?> saveDiscount(@RequestBody DiscountRequest request){
         return ResponseEntity.ok(discountService.save(request));
     }
-    @PutMapping("/price/save")
+    @PostMapping("/price/save")
     ResponseEntity<?>savePrice(@RequestBody PriceRequest request){
         return ResponseEntity.ok(priceService.save(request));
     }

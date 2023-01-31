@@ -1,5 +1,5 @@
 package com.example.naTV.models.entity;
-import com.querydsl.core.types.EntityPath;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
